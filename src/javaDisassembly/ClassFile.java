@@ -5,11 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import Util.AccessGetter;
 import attribute_info.attribute_info;
 import cp_info.*;
 
 public class ClassFile {
-		public static final String[] ACCESS_LOOKUP = {"public", "private", "protected","static", "final", "synchronized", "bidged", "varargs","native", "abstract", "strict", "synthetic"};
+		
 	    public u4               magic;
 	    public u2               minor_version;
 	    public u2               major_version;
@@ -62,12 +63,7 @@ public class ClassFile {
 	    		System.out.println("" + (i+1) + " : " + constant_pool[i].toString());
 	    	}
 	    	System.out.println("------------ end of pool ---------------");
-	    	int tmpflags = access_flags.d;
-	    	for (String access:ACCESS_LOOKUP) {
-	    		if (tmpflags%2 == 1)
-	    			System.out.print(access + " ");
-	            tmpflags /= 2;
-	    	}
+	    	System.out.print(AccessGetter.get(access_flags.d));
 	    	CONSTANT_Class_Info thisclass  = (CONSTANT_Class_Info) (constant_pool[this_class.d  - 1]);
 	    	CONSTANT_Class_Info superclass = (CONSTANT_Class_Info) (constant_pool[super_class.d - 1]);;
 	    	System.out.print(((CONSTANT_Utf8_Info) constant_pool[thisclass.name_index.d  - 1]).value + " extends ");

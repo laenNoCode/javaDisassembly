@@ -3,6 +3,7 @@ package javaDisassembly;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import Util.AccessGetter;
 import attribute_info.attribute_info;
 import attribute_info.attribute_reader;
 import cp_info.CONSTANT_Utf8_Info;
@@ -30,14 +31,7 @@ public class field_info {
     	descriptor_str = ((CONSTANT_Utf8_Info) constant_pool[descriptor_index.d - 1]).value;
     }
     public String toString() {
-    	int flags = access_flags.d;
-    	String toRet = "";
-    	for (String flag:ClassFile.ACCESS_LOOKUP)
-    	{
-    		if (flags %2 == 1)
-    			toRet += flag + " ";
-    		flags /= 2;
-    	}
+    	String toRet = AccessGetter.get(access_flags.d);
     	toRet += descriptor_str + " " + name_str + " \n\t{\n";
     	for (int i = 0; i < attributes_count.d; i++) {
     		System.out.println("\t\t" + attributes[i]+ "\n");
